@@ -65,18 +65,34 @@ window.addEventListener('storage', (event) => {
 });
 
 // --- Google Ads dönüşüm takibi ---
-function trackContactConversion(action) {
-    if (typeof gtag !== 'function') return true;
+// Hesap: evimde sağlık (944-629-9242). Etiketler Ads > Hedefler > Dönüşümler'den alındı.
+const CONVERSION_LABELS = {
+    phone: 'AW-18244467256/26tnCMXcqI0dELj00ftD',    // Site - Telefon tıklaması
+    whatsapp: 'AW-18244467256/POivCMjcqI0dELj00ftD', // Site - WhatsApp tıklaması
+};
+
+function trackContactConversion(kind) {
+    if (typeof gtag !== 'function' || !CONVERSION_LABELS[kind]) return;
     gtag('event', 'conversion', {
-        'send_to': 'AW-18244467256/4sQNCI-KvPUbEMzXrc1C',
+        'send_to': CONVERSION_LABELS[kind],
         'value': 1.0,
-        'currency': 'TRY'
+        'currency': 'TRY',
+        'transport_type': 'beacon'
     });
-    gtag('event', action || 'contact_click', {
-        'event_category': 'engagement'
-    });
-    return true;
 }
+
+// Tüm telefon ve WhatsApp bağlantılarını tek yerden dinler. Varsayılan davranışı
+// engellemez; arama ekranı ve WhatsApp normal şekilde açılır (iOS Safari dahil).
+document.addEventListener('click', (event) => {
+    const link = event.target.closest && event.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href') || '';
+    if (href.startsWith('tel:')) {
+        trackContactConversion('phone');
+    } else if (href.includes('wa.me/') || href.includes('api.whatsapp.com')) {
+        trackContactConversion('whatsapp');
+    }
+}, true);
 
 // --- Mobil menü ---
 function toggleMobileMenu() {
