@@ -11,7 +11,6 @@ Google Ads etiketlemesinde ana domain olarak `evimdesaglik.net` kullanılmalıd�
 | Ana sayfa | https://evimdesaglik.net/ |
 | Hizmetlerimiz | https://evimdesaglik.net/services.html |
 | Evde Serum | https://evimdesaglik.net/evde-serum.html |
-| Özel Ambulans | https://evimdesaglik.net/ozel-ambulans.html |
 | Randevu ve İletişim | https://evimdesaglik.net/iletisim.html |
 
 Ortak betikler (Tailwind ayarı, karanlık mod, mobil menü, slider, dönüşüm takibi) `assets/site.js` içindedir.
